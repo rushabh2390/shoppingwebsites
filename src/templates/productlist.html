@@ -1,0 +1,89 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+{%if error %}
+    {{ error }}
+{% endif %}
+<div class="product-view">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-lg-8">
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="product-view-top">
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="product-search">
+                                        <input type="email" value="Search">
+                                        <button><i class="fa fa-search"></i></button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                    {% for product in products %}
+                        <div class="col-md-4">
+                            <div class="product-item">
+                                <div class="product-title">
+                                    <a href="productdetails?productid={{ product.productID }}">{{ product.productName }}</a>
+                                    <div class="ratting">
+                                        <i class="fa fa-star"></i>
+                                        <i class="fa fa-star"></i>
+                                        <i class="fa fa-star"></i>
+                                        <i class="fa fa-star"></i>
+                                        <i class="fa fa-star"></i>
+                                    </div>
+                                </div>
+                                <div class="product-image">
+                                    <a href="productdetails?productid={{ product.productID }}">
+                                        <img src="{{ product.productCoverImage.url }}" alt="Product cover Image"  style="height:300px;">
+                                    </a>
+                                    <!-- <div class="product-action">
+                                        <a href="#"><i class="fa fa-cart-plus"></i></a>
+                                        <a href="#"><i class="fa fa-heart"></i></a>
+                                        <a href="#"><i class="fa fa-search"></i></a>
+                                    </div> -->
+                                </div>
+                                <div class="product-price">
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <h3><span>Rs.</span> {{ product.productPrice }}</h3>
+                                        </div>
+                                        <div class="col-md-3">
+                                            <a class="btn" href="updateproduct?productid={{ product.productID }}">Edit</a>
+                                        </div>
+                                        <div class="col-md-3">
+                                            <a class="btn" href="deleteproduct?productid={{ product.productID }}">Delete</a>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                            </div>
+                        </div>
+                   
+                    {% endfor %}
+                     </div>
+                
+                <!-- Pagination Start -->
+                <!-- <div class="col-md-12">
+                    <nav aria-label="Page navigation example">
+                        <ul class="pagination justify-content-center">
+                            <li class="page-item disabled">
+                                <a class="page-link" href="#" tabindex="-1">Previous</a>
+                            </li>
+                            <li class="page-item active"><a class="page-link" href="#">1</a></li>
+                            <li class="page-item"><a class="page-link" href="#">2</a></li>
+                            <li class="page-item"><a class="page-link" href="#">3</a></li>
+                            <li class="page-item">
+                                <a class="page-link" href="#">Next</a>
+                            </li>
+                        </ul>
+                    </nav>
+                </div> -->
+                <!-- Pagination Start -->
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock%}

@@ -1,0 +1,61 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+{% if form.errors %}
+<div class="login">
+  <div class="alert alert-danger">
+    <ul class="errorlist">
+      {% for field in form %}
+        {% if field.errors %}
+          <li>
+            {{ field.label }}
+            <ul class="errorlist">
+              {% for error in field.errors %}
+                <li>{{ error }}</li>
+              {% endfor %}
+            </ul>
+          </li>
+        {% endif %}
+      {% endfor %}
+    </ul>
+  </div>
+{% endif %}
+    
+  {% if error %}
+  <div class="alert alert-danger">
+    <ul class="errorlist">
+        <li> {{ error }}</li>
+    </ul>
+  </div>
+  {% endif %}
+    <form action="" method="post" action=" ">
+        {% csrf_token %}
+        <div class="row-lg-12">
+            <div class="col-lg-6">    
+                <div class="register-form">
+                        {% for element in form %}
+                        <div class="row" >
+                            <div class="col-md-12">
+                                {% if element.name == "userPwd" %}
+                                    <label> {{ element.label }}</label>
+                                    <input class="form-control" type="password" name={{ element.name }}>
+                                {% else %}
+                                    <label> {{ element.label }}</label>
+                                    <input class="form-control" type="text" name={{ element.name }}>
+                                {% endif %}
+                            </div>
+                        </div>
+                        {% endfor %}
+                        <div class="row" >
+                            <div class="col-md-12">
+                                <button type="submit" class="btn">Submit</button>
+                            </div>
+                        </div>
+                        
+                    
+                </div>
+            </div>
+        </div>
+    </form>
+   </div>
+{% endblock%}

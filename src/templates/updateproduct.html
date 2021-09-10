@@ -1,0 +1,174 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+<div class="login">
+    
+    {% if form.errors %}
+    <div class="alert alert-danger">
+        <ul>
+            {% for field in form %}
+                {% if field.errors %}
+                <li>
+                    {{ field.label }}
+                    <ul class="errorlist">
+                    {% for error in field.errors %}
+                        <li>{{ error }}</li>
+                    {% endfor %}
+                    </ul>
+                </li>
+            {% endif %}
+        {% endfor %}
+        </ul>
+    </div>
+    {% endif %}
+    {% if formimageset.errors %}
+        <div class="alert alert-danger">
+            <ul>
+                {% for dict in formset.errors %}
+                    {% for error in dict.values %}
+                        <li>{{ error }}</li>
+                    {% endfor %}
+                {% endfor %}
+            </ul>
+        </div>
+    {% endif %}
+    {% if success %}
+    <div class="alert alert-success">
+      {{ success }}
+    </div>
+    {% endif %}
+    <form action="" method="post" action=" " enctype="multipart/form-data">
+        {% csrf_token %}
+        {{ formimageset.management_form }}
+        <div class="row">
+            <div class="col-lg-12">    
+                <div class="register-form">
+                   
+                    <div class="row">
+                        {% for element in form %}
+                        {% with name=element.name %}
+                         
+                        <div class="col-md-6">
+                            {% if element.name == "productCategory"  %}
+                                <label> {{ element.label }}</label>
+                                <select class="form-control" name={{ element.name  }}>
+                                    {% for category in categories %}
+                                    {% if element.value == category.categoryID %}
+                                        <option value={{ category.categoryID }} selected>  {{ category.categoryName }} </option>
+                                    {% else %}
+                                        <option value={{ category.categoryID }}>  {{ category.categoryName }} </option>
+                                    {% endif %}
+                                    
+                                    {% endfor %}
+                                </select>
+                            {% elif  element.name == "productShortDesc" or element.name == "productLongDesc" or element.name == "productCartDesc"  %}
+                                <label> {{ element.label }}</label>
+                                <textarea class="form-control" name={{ element.name }} >{{ element.value }}</textarea>
+                            {% elif  element.name == "productUpdateDate"  %}
+                                <label> {{ element.label }}</label>
+                                <input  type="text"  class="form-control" name={{ element.name }} value={{ element.value }} disabled >
+                            {% elif  element.name == "isProductAvailable"  %}
+                                {%if element.value %}
+                                    <input  type="checkbox" class="form-check-input" name={{ element.name }} checked >
+                                {% else %}
+                                <input  type="checkbox" class="form-check-input" name={{ element.name }} >
+                                {% endif %}
+                                <label class="form-check-label" for="headerimage"> {{ element.label }}</label>
+                            {% elif  element.name == "productCoverImage"  %}
+                                <label class="form-check-label" for="headerimage"> {{ element.label }}</label>
+                                <div class="custom-file">
+                                    <input type="file" class="form-control-file" id="coverimage" name={{ element.name }}>
+                                </div>
+                                <img src="{{element.value.url }}" alt="Product cover Image"  style="height:200px;">
+                            {% else %}
+                                <label> {{ element.label }}</label>
+                                <label> Previous uploaded Image</label>
+                                <input class="form-control" type="text"  name="{{ element.name }}" value={{ element.value }}>
+                            {% endif %}
+                        </div>
+                        {% endwith %}
+                        {% endfor %}                       
+                    </div>
+                    {% for images in formimageset %}
+                    {% with id=forloop.counter0|stringformat:"s"%}
+                    {% with inputname="form-"|add:id|add:"-"|add:"image" %}
+                    {% with idname="id_"|add:inputname %}
+                        <!-- {{ images.media  }} -->
+                        {% for hidden in form.hidden_fields %}
+                            {{ hidden }}
+                        {% endfor %}
+                        <div class="row">
+                            <div class="col-md-12">
+                                {% for element in images %}
+                                    <div class="col-md-6">
+                                        {% if element.name == "image"  %}
+                                        <div class="custom-file">
+                                            <input type="file" class="form-control-file" id={{ idname }} name={{ inputname }}>
+                                        </div>
+                                        {% elif element.name == "id" %}
+                                            <input type="hidden" id={{ element.name }} name={{ element.name }}>
+                                        {% else %}
+                                            <input  type="checkbox" class="form-check-input" name={{ element.name }}>
+                                            <label class="form-check-label" for="headerimage"> {{ element.label }}</label>  
+                                        {% endif %}
+                                    </div>
+                                {% endfor %}        
+                            </div>
+                        </div>
+                        {% endwith %}
+                        {% endwith %}
+                        {% endwith %}
+                    {% endfor %}
+                    <h2>uploaded image</h2><br/>
+                    <div class="row">
+                        <input type="hidden" name="deleted_image_list" id="deleted_image_list" value =""/>
+                        {% for image in productimage %}
+                        <div class="col-lg-12">
+                            <input  type="checkbox" class="form-check-input" id ="image_{{ image.id }}" name="image_{{ image.id }}" value= "{{ image.id }}" onclick="check(this.value);">
+                            <label class="form-check-label" for="headerimage"> Delete this image</label><br/>
+                            <img src="{{ image.image.url }}" alt="Product Image"  style="height:200px;">
+                        </div>
+                        {% endfor %}
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <br/>
+                            <button type="submit" class="btn">Update</button>
+                        </div>
+                    </div>
+                        
+                </div>
+            </div>
+        </div>
+    </form>
+    <script type="text/javascript">
+        window.onload = (event) => {
+            arr = []
+            $('#deleted_image_list').val(JSON.stringify(arr));
+             
+        };
+        function check(id)
+             {
+                name = "image_"+id;
+                if(document.getElementById(name).checked==true)
+                {
+                    arr = JSON.parse($('#deleted_image_list').val());
+                    arr.push(id);
+                    $('#deleted_image_list').val(JSON.stringify(arr));
+                }
+                else
+                {
+                    arr = JSON.parse($('#deleted_image_list').val());
+                    index=arr.indexOf(id);
+                    if (index > -1) {
+                        arr.splice(index, 1);
+                    }
+                    $('#deleted_image_list').val(JSON.stringify(arr));
+
+                }
+            
+             }
+        
+    </script>
+</div>
+{% endblock%}

@@ -1,0 +1,49 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+<div class="login">
+    
+    {% if errors %}
+   
+    <div class="alert alert-error">
+        {{ errors }}
+    </div>
+    {% endif %}
+    {% if success %}
+   
+    <div class="alert alert-success">
+      {{ success }}
+    </div>
+    {% endif %}
+    <form action="" method="post" action=" ">
+        {% csrf_token %}
+        <div class="row">
+            <div class="col-lg-12">    
+                <div class="register-form">
+                    <div class="row">
+                        {% for element in form %}
+                        <div class="col-md-6">
+                            {% if element.name != "customerAddress" and element.name != "customerShipmentAddress" %}
+                                {% if element.name == "customerPwd" %}
+                                    <label> {{ element.label }}</label>
+                                    <input class="form-control" type="password" name={{ element.name }}>
+                                {% else %}
+                                    <label> {{ element.label }}</label>
+                                    <input class="form-control" type="text" name={{ element.name }}>
+                                {% endif %}
+                            {% else %}
+                                <label> {{ element.label }}</label>
+                                <textarea class="form-control" name={{ element.name }} ></textarea>
+                            {% endif %}
+                        </div>
+                        {% endfor %}
+                        <div class="col-md-12">
+                            <button type="submit" class="btn">Submit</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
+   </div>
+{% endblock%}

@@ -1,0 +1,83 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+    <head >
+        {% include "includes/header.html" %}
+    </head>
+
+    <body>
+        <!-- Top bar Start -->
+        {% include 'includes/topbar.html' %}
+        <!-- Top bar End -->
+        
+        <!-- Nav Bar Start -->
+        {% include 'includes/navbar.html' %}
+        <!-- Nav Bar End -->      
+        
+        <!-- Bottom Bar Start -->
+        {% include 'includes/bottombar.html' %}
+        <!-- Bottom Bar End -->       
+        {% block  content %}
+        <!-- Main Slider Start -->
+        {% include 'includes/mainslider.html' %}
+        <!-- Main Slider End -->      
+        
+        <!-- Brand Start -->
+        {% include 'includes/brands.html' %}
+        <!-- Brand End -->      
+        
+        <!-- Feature Start-->
+        {% include 'includes/feature.html' %}
+        <!-- Feature End-->      
+        
+        <!-- Category Start-->
+        {% include 'includes/category.html' %}
+        <!-- Category End-->       
+        
+        <!-- Call to Action Start -->
+        <!-- <div class="call-to-action">
+            <div class="container-fluid">
+                <div class="row align-items-center">
+                    <div class="col-md-6">
+                        <h1>call us for any queries</h1>
+                    </div>
+                    <div class="col-md-6">
+                        <a href="tel:0123456789">+012-345-6789</a>
+                    </div>
+                </div>
+            </div>
+        </div> -->
+        <!-- Call to Action End -->       
+        
+        <!-- Featured Product Start -->
+        {% include 'includes/featuredproduct.html' %}
+        <!-- Featured Product End -->       
+        
+        <!-- Newsletter Start -->
+        {% include 'includes/newsletter.html' %}
+        <!-- Newsletter End -->        
+        
+        <!-- Recent Product Start -->
+        {% include 'includes/recentproduct.html' %}
+        <!-- Recent Product End -->
+       
+        <!-- Review Start -->
+        {% include 'includes/review.html' %}
+        <!-- Review End -->        
+        {% endblock %}
+        <!-- Footer Start -->
+        {% include "includes/footer.html" %}
+        
+        <!-- Back to Top -->
+        <a href="#" class="back-to-top"><i class="fa fa-chevron-up"></i></a>
+        
+        <!-- JavaScript Libraries -->
+        <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.bundle.min.js"></script>
+        <script src="{% static 'lib/easing/easing.min.js' %}"></script>
+        <script src="{% static 'lib/slick/slick.min.js' %}"></script>
+        
+        <!-- Template Javascript -->
+        <script src="{% static 'js/main.js' %}"></script>
+    </body>
+</html>
